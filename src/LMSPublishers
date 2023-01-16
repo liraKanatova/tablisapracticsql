@@ -1,0 +1,61 @@
+select name, published_year,genre from books;
+
+select distinct country from books;
+
+select  * from books where published_year between '1-1-2020' and '1-1-2023';
+
+select name from books where genre='DETECTIVE';
+
+select concat(first_name,' ',last_name) as author from authors;
+
+select first_name,last_name,country from authors
+where country in ('Germany','France') order by country;
+
+select name,country,published_year,price,genre from books
+where genre not in('ROMANS') order by  price>500;
+
+select * from authors where gender='Female' fetch first 3 row only ;
+
+select * from authors where gender='Female' and email like '%com' and first_name like'____';
+
+select country,count(*) from authors group by country order by count(*) desc ;
+
+select country,count(*) from authors
+group by country having count(*)=3 order by country;
+
+select genre,sum(price) from books group by genre;
+
+
+select genre, min(price) from books where genre in('HISTORY','DETECTIVE')
+ group by genre,price;
+
+select genre,COUNT(* ) from books where genre in('HISTORY','BIOGRAPHY')
+ group by  genre order by count(*);
+
+select p.name,language from books
+join languages l on l.id = books.language_id
+join publishers p on p.id = books.publisher_id;
+
+select * from authors
+left join books b on authors.id = b.author_id
+left join publishers p on p.id = b.publisher_id ;
+
+select * from authors
+left join books b on authors.id = b.author_id;
+
+select language, count(*)from books
+join publishers p on p.id = books.publisher_id
+join languages l on l.id = books.language_id
+group by language
+order by language desc  ;
+
+select name, round(avg(price)) from books
+join authors a on a.id=books.author_id group by name;
+
+select published_year,concat(first_name,' ',last_name) as full_name from books
+join authors a on a.id = books.author_id
+where published_year between '1-1-2010' and '1-1-2015';
+
+select concat(first_name,' ',last_name) as full_name,sum(price)
+from books join authors a on a.id = books.author_id
+where published_year between '1-1-2010' and '1-1-2015' group by full_name;
